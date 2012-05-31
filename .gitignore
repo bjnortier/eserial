@@ -1,7 +1,5 @@
-Makefile.in
-Makefile
-/aclocal.m4
-/autom4te.cache
-/auxdir
-config.h.in
-configure
+.DS_Store
+*~
+ebin/
+c_src/eserial.o
+priv/eserial

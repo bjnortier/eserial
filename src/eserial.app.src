@@ -1,0 +1,12 @@
+{application, eserial,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { eserial_app, []}},
+  {env, []}
+ ]}.
