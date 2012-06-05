@@ -50,8 +50,6 @@ typedef enum {
   BREAK=8
 } command;
 
-#define DEBUG
-
 #ifdef DEBUG
 # define Debug(STRING)            fprintf(stderr,STRING)
 # define Debug1(STRING,Arg)       fprintf(stderr,STRING,Arg)

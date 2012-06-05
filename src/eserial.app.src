@@ -8,5 +8,6 @@
                   stdlib
                  ]},
   {mod, { eserial_app, []}},
-  {env, []}
+  {env, [{options, [{tty, "/dev/cu.usbmodem1a161"},
+                    {speed, 9600}]}]}  
  ]}.

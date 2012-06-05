@@ -74,7 +74,6 @@ loop(Pid,Port,LogLevel) ->
         %% Incoming bytes from the serial device
 
         {Port, {data, Bytes}} ->
-            io:format("!!! Received ~p", [Bytes]),
             Pid ! {self(),{data, Bytes}},
             ?MODULE:loop(Pid,Port,LogLevel);
 
@@ -86,12 +85,6 @@ loop(Pid,Port,LogLevel) ->
 
         %% Start chatting to the serial device
 
-        {chat,Chat,F} ->
-            case do_chat(Port,Chat,LogLevel) of
-                ok -> F(ok);
-                _  -> F({error,chat_failed})
-            end,
-            ?MODULE:loop(Pid,Port,LogLevel);
 
         %% Set various options
 
@@ -148,26 +141,6 @@ loop(Pid,Port,LogLevel) ->
             io:format("Received unknown message ~w~n",[OtherError]),
             ?MODULE:loop(Pid,Port,LogLevel)
     end.
-
-%% -------------------------------------------------------
-%% Setup the callback functions for the eppp_chat module.
-
-do_chat(Port,Chat,LogLevel) ->
-    Send = fun(Bytes) -> send_serial(Port,[?SEND,Bytes]) end,
-    Recv = fun(Timeout,Cont) ->
-                   receive
-                       {Port, {data, Bytes}} ->
-                           Cont({ok,binary_to_list(Bytes)})
-                   after Timeout ->
-                           Cont(timeout)
-                   end
-           end,
-    Log  = fun(Fstr,Args) -> 
-                   Fs = fun() -> "eppp_chat(~w): " ++ Fstr end,
-                   Fa = fun() -> [eppp:ts()|Args] end,
-                   error_logger:w2(LogLevel,Fs,Fa) 
-           end,
-    eppp_chat:run(Send,Recv,Log,Chat).
 
         
 send_serial(Port,Message) ->

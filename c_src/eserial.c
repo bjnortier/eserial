@@ -60,7 +60,7 @@
 #include <sys/stat.h>
 #include <string.h>
 
-#include "eppp_serial.h"
+#include "eserial.h"
 
 int errno;
 

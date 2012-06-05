@@ -24,5 +24,7 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, []} }.
+    {ok, Options} = application:get_env(options),
+    SerialServer = {eserial_server, {eserial_server, start_link, [Options]}, permanent, 5000, worker, [eserial_server]},
+    {ok, { {one_for_one, 5, 10}, [SerialServer]} }.
 
